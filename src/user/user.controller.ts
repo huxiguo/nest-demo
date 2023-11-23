@@ -6,6 +6,9 @@ import {
   Patch,
   Param,
   Delete,
+  Request,
+  Query,
+  HttpCode,
 } from '@nestjs/common';
 import { UserService } from './user.service';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,28 +18,49 @@ import { UpdateUserDto } from './dto/update-user.dto';
 export class UserController {
   constructor(private readonly userService: UserService) {}
 
-  @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.userService.create(createUserDto);
-  }
+  // @Get()
+  // findAll(@Request() req) {
+  //   console.log(req.query);
+
+  //   return {
+  //     code: 200,
+  //     message: req.query.name,
+  //   };
+  // }
 
   @Get()
-  findAll() {
-    return this.userService.findAll();
+  findAll(@Query() query) {
+    console.log(query);
+    return {
+      code: 200,
+      message: query.name,
+    };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.userService.findOne(+id);
+  @HttpCode(200)
+  findId(@Param('id') id: number) {
+    return {
+      code: 200,
+      msg: id,
+    };
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(+id, updateUserDto);
-  }
+  // @Post()
+  // create(@Request() req) {
+  //   console.log(req);
 
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userService.remove(+id);
+  //   return {
+  //     code: 200,
+  //     message: req.body.name,
+  //   };
+  // }
+  @Post()
+  create(@Body('name') name: string, @Body('age') age: string) {
+    return {
+      code: 200,
+      name,
+      age,
+    };
   }
 }
