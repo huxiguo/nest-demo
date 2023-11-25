@@ -4,9 +4,10 @@ import { AppService } from './app.service';
 import { DemoController } from './demo/demo.controller';
 import { DemoModule } from './demo/demo.module';
 import { UserModule } from './user/user.module';
+import { ValidateCodeModule } from './validate-code/validate-code.module';
 
 @Module({
-  imports: [DemoModule, UserModule],
+  imports: [DemoModule, UserModule, ValidateCodeModule],
   controllers: [AppController, DemoController],
   providers: [AppService],
 })
