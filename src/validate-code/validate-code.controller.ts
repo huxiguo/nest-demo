@@ -29,6 +29,7 @@ export class ValidateCodeController {
       height: 34, // 高度
       background: '#cc8787', // 背景颜色
     });
+    console.log(captcha.text);
     session.code = captcha.text;
     res.type('image/svg+xml');
     res.send(captcha.data);
@@ -37,8 +38,16 @@ export class ValidateCodeController {
   @Post('create')
   createUser(@Body() Body, @Session() session) {
     console.log(Body, session.code);
-    return {
-      code: 200,
-    };
+    if (session.code.toLocaleLowerCase() === Body?.code?.toLocaleLowerCase()) {
+      return {
+        code: 200,
+        message: '验证成功',
+      };
+    } else {
+      return {
+        code: 200,
+        message: '验证失败',
+      };
+    }
   }
 }
